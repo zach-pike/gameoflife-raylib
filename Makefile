@@ -4,8 +4,10 @@ outfile = out
 LIBs = lib/
 INCl = include/
 
+FILES = src/*.cpp src/grid/*.cpp
+
 build:
-	$(CC) src/*.cpp src/grid/*.cpp -o $(outfile) -lm -L$(LIBs) -I$(INCl) -lraylib
+	$(CC) $(FILES) -o $(outfile) -lm -L$(LIBs) -I$(INCl) -lraylib
 	if ![ -d "saves/" ]; then \
         mkdir saves; \
     fi
