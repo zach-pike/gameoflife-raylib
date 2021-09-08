@@ -1,4 +1,6 @@
 #include "grid.h"
+#include "stdio.h"
+#define pop_front(v) if(!v.empty())v.erase(v.begin());
 
 int getNebiourCount(int x, int y, PixelArray pixels) {
     int count = 0;
@@ -35,7 +37,25 @@ int getNebiourCount(int x, int y, PixelArray pixels) {
     return count;
 }
 
+void Grid::AddUndoState() {
+    auto& prevStates = Grid::previousStates;
+
+    auto size = Grid::previousStates.size();
+
+    if (size >= Grid::maxUndoFrames) pop_front(previousStates);
+
+    previousStates.push_back(Grid::pixels);
+}
+
+void Grid::Undo() {
+    if (Grid::previousStates.size() > 0) {
+        Grid::pixels = Grid::previousStates.back();
+        Grid::previousStates.pop_back();
+    }
+}
+
 void Grid::GameOfLife() {
+    Grid::AddUndoState();
     //create snapshot of pixels
     PixelArray temp = Grid::pixels;
 

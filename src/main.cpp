@@ -1,4 +1,4 @@
-#include "../include/raylib.h"
+#include "raylib.h"
 #include "math.h"
 #include "grid/grid.h"
 #include "stdio.h"
@@ -10,10 +10,8 @@ int main(void) {
 
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 480;
 
-    InitWindow(0, 0, "raylib [core] example - 3d camera mode");
+    InitWindow(0, 0, "");
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     ToggleFullscreen();

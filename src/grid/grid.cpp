@@ -1,5 +1,5 @@
 #include "grid.h"
-#include "../include/raylib.h"
+#include "raylib.h"
 
 using namespace std;
 
@@ -44,7 +44,7 @@ void Grid::DrawGrid() {
 }
 
 void Grid::UpdateGrid() {
-    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
         //calculate width and height of box
         Vector2 mousepos = GetMousePosition();
 
@@ -52,13 +52,21 @@ void Grid::UpdateGrid() {
         int x = (int)mousepos.x / pixSize;
         int y = (int)mousepos.y / pixSize;
 
-        //invert the color
-        Grid::pixels[y][x].activated = !Grid::pixels[y][x].activated;
+        if (Grid::lastMousePos.x != x || Grid::lastMousePos.y != y) {
+            Grid::lastMousePos = {x, y};
+
+            //invert the color
+            Grid::pixels[y][x].activated = !Grid::pixels[y][x].activated;
+        }
     }
 
     //actual game of life code
     if (IsKeyPressed(KEY_SPACE)) {
         Grid::GameOfLife();
+    }
+
+    if (IsKeyPressed(KEY_Z)) {
+        Grid::Undo();
     }
 }
 
